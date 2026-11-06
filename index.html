@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Piece of Us ♡</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+:root {
+  --pink:#ed91b2;
+  --dark:#a94370;
+  --light:#fff0f5;
+  --cream:#fffaf5;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; padding:25px 15px;
+  background:radial-gradient(circle at top,#ffe0eb,#fff4f5 55%,#fff0e8);
+  color:#75465b; font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+body:before{
+  content:"♡"; position:fixed; top:5%; left:7%;
+  font-size:55px; color:#f3b4cb; opacity:.5;
+}
+body:after{
+  content:"🎀"; position:fixed; bottom:4%; right:5%;
+  font-size:45px; opacity:.6;
+}
+#app{max-width:470px;margin:20px auto;position:relative}
+.card{
+  background:rgba(255,255,255,.88);
+  border:2px solid white; border-radius:27px;
+  padding:30px 23px; text-align:center;
+  box-shadow:0 12px 35px #d78aa52b;
+  position:relative;
+}
+.ribbon{font-size:28px;letter-spacing:5px}
+h1,h2{font-family:'Playfair Display',serif;color:#bd6489}
+h1{font-size:34px;line-height:1.2;margin:13px 0}
+h2{font-size:27px}
+p{line-height:1.7;font-size:14px}
+.small{font-size:12px;color:#b17a91;letter-spacing:2px}
+.heart{font-size:46px;margin:15px}
+.envelope{
+  width:150px;height:105px;margin:25px auto;
+  background:#f4b4cb;position:relative;border-radius:9px;
+  display:grid;place-items:center;font-size:48px;
+  box-shadow:0 8px 15px #d78aa54a;
+}
+.envelope:before{
+  content:"";position:absolute;top:0;
+  border-left:75px solid transparent;
+  border-right:75px solid transparent;
+  border-top:55px solid #e991b2;
+}
+.envelope span{z-index:1;margin-top:23px}
+button{
+  border:0;border-radius:30px;padding:14px 25px;
+  background:#e88eb0;color:white;font-weight:700;
+  font-size:14px;cursor:pointer;
+  box-shadow:0 5px 12px #e88eb04d;
+  font-family:inherit;margin:8px 3px;
+}
+button:active{transform:scale(.97)}
+button.secondary{background:#fff0f5;color:#ad5d80}
+input{
+  width:100%;padding:15px;border:2px solid #f2c5d6;
+  border-radius:15px;background:#fff9fb;
+  outline:none;font-size:15px;text-align:center;
+  color:#75465b;margin:12px 0;
+}
+input:focus{border-color:#e88eb0}
+.question{background:#fff2f7;border-radius:18px;padding:20px;margin:20px 0}
+.progress{height:8px;background:#f9dce7;border-radius:20px;overflow:hidden}
+#bar{height:100%;width:0;background:#df7fa4;transition:.4s}
+.feedback{min-height:28px;color:#b34e78;font-size:13px}
+.hidden{display:none}
+.letter{
+  text-align:left;background:#fff8f5;padding:22px;
+  border:1px dashed #e9a4bd;border-radius:18px;
+  line-height:1.85;font-size:14px;
+}
+.letter h2{text-align:center}
+.signature{text-align:right;color:#bd6489;font-family:'Playfair Display',serif;font-style:italic}
+.sticker{font-size:22px}
+footer{font-size:11px;color:#c28aa1;text-align:center;margin:20px}
+.float{
+  position:fixed;bottom:-30px;animation:rise 5s linear forwards;
+  pointer-events:none;z-index:5;
+}
+@keyframes rise{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}
+</style>
+</head>
+<body>
+<div id="app">
+
+<section class="card" id="welcome">
+  <div class="ribbon">୨୧ 🎀 ୨୧</div>
+  <div class="heart">💗</div>
+  <div class="small">A SECRET LITTLE SURPRISE</div>
+  <h1>A Little Piece<br>of Us</h1>
+  <p>Made with love, a little craziness<br>and lots of pink. ♡</p>
+  <div class="envelope"><span>💌</span></div>
+  <p><b>Hey you!</b><br>Before you can open your surprise,<br>you have to prove you're really my favourite idiot.</p>
+  <button onclick="startGame()">OPEN MY SURPRISE ♡</button>
+  <p class="small">EST. 09.11.25</p>
+</section>
+
+<section class="card hidden" id="quiz">
+  <div class="ribbon">🎀 ♡ 🎀</div>
+  <div class="small" id="level">LEVEL 1 OF 3</div>
+  <h2>Let's test your memory!</h2>
+  <div class="progress"><div id="bar"></div></div>
+  <div class="question">
+    <div class="sticker" id="sticker">🧸</div>
+    <h2 id="question"></h2>
+    <p id="subquestion"></p>
+  </div>
+  <input id="answer" placeholder="Type your answer here..." autocomplete="off">
+  <div class="feedback" id="feedback"></div>
+  <button onclick="checkAnswer()">SUBMIT ANSWER ♡</button>
+  <p class="small">No cheating! I'm watching you 👀</p>
+</section>
+
+<section class="card hidden" id="success">
+  <div class="ribbon">🎀 💗 🎀</div>
+  <div class="heart">🔓</div>
+  <h1>YOU DID IT!</h1>
+  <p>Okayyy, you actually know me pretty well. 😭</p>
+  <p>Your reward is waiting...</p>
+  <div class="envelope"><span>💌</span></div>
+  <button onclick="showLetter()">UNLOCK YOUR LETTER ♡</button>
+</section>
+
+<section class="card hidden" id="letter">
+  <div class="ribbon">୨୧ 🎀 ୨୧</div>
+  <div class="small">A LITTLE LOVE NOTE</div>
+  <h1>Happy 1st Anniversary!</h1>
+  <div class="heart">💗</div>
+  <div class="letter">
+    <h2>To my favourite person ♡</h2>
+    Hey you! ❤️<br><br>
+
+    Can you believe it's been one whole year of us?
+    Sometimes I think about how a simple little moment
+    turned into something that means so much to me. 🥹<br><br>
+
+    One of the first things I noticed about you was
+    your voice, and now look at us! I have so many
+    little memories with you that I wish I could keep
+    in a tiny box and revisit whenever I want.<br><br>
+
+    I love our little moments, our conversations,
+    our silly things, and even the times when we
+    annoy each other. And honestly, I don't think
+    you realise how much happiness the smallest
+    things you do bring me.<br><br>
+
+    Also, I still find our height difference
+    ridiculously cute. Like, why are you so tall? 😭❤️<br><br>
+
+    I know we're not perfect, and we don't have to be.
+    I just love that we're learning about each other,
+    growing together, and making our own little
+    memories along the way.<br><br>
+
+    Thank you for being a part of my life, for making
+    me smile, and for giving me so many moments that
+    I can look back on and smile about all over again.<br><br>
+
+    I hope we get to celebrate many more little
+    milestones, make more stupid jokes, take more
+    pictures, and create memories that we'll laugh
+    about later.<br><br>
+
+    And lastly, just in case I don't say it enough…<br><br>
+
+    <b>I really, really like you. More than you know.</b> 🫶🏻<br><br>
+
+    Happy Anniversary, idiot.<br>
+    You're my favourite notification. ❤️
+
+    <div class="signature">
+      With lots of love,<br>
+      Your girl ♡
+    </div>
+  </div>
+  <p class="heart">🧸💗🎀</p>
+  <p>One year down, and so many silly memories made.</p>
+  <p class="small">09.11.25 — 09.11.26</p>
+</section>
+
+<footer>MADE WITH ♡ JUST FOR YOU</footer>
+</div>
+
+<script>
+const questions = [
+ {
+  title:"When did our little story begin?",
+  sub:"Think carefully, mister. This one's easy!",
+  sticker:"📅",
+  answers:["09/11/25","9 november 2025","9 nov 2025","9 november","9th november 2025","november 9 2025","9-11-25"],
+  hint:"Hint: It's written on the first screen! 💗",
+  wrong:"HOW COULD YOU FORGET OUR DATE?! 😭"
+ },
+ {
+  title:"What was the first thing I noticed about you?",
+  sub:"Not your looks, think about what caught my attention...",
+  sticker:"🎧",
+  answers:["your voice","voice","the way you speak","your speaking voice"],
+  hint:"Hint: Something you hear, not see! 👀",
+  wrong:"EXCUSE ME?! THINK AGAIN 😂"
+ },
+ {
+  title:"What do I find ridiculously cute about us?",
+  sub:"A little physical difference between us...",
+  sticker:"🧸",
+  answers:["height difference","our height difference","your height","that you're tall","you being tall","our height"],
+  hint:"Hint: Look up... or should I say, look down? 😭",
+  wrong:"YOU REALLY NEED TO PAY ATTENTION TO ME 😂"
+ }
+];
+
+let current=0;
+function startGame(){
+ document.getElementById("welcome").classList.add("hidden");
+ document.getElementById("quiz").classList.remove("hidden");
+ showQuestion();
+ hearts();
+}
+function showQuestion(){
+ const q=questions[current];
+ document.getElementById("level").textContent="LEVEL "+(current+1)+" OF 3";
+ document.getElementById("question").textContent=q.title;
+ document.getElementById("subquestion").textContent=q.sub;
+ document.getElementById("sticker").textContent=q.sticker;
+ document.getElementById("bar").style.width=(current/3*100)+"%";
+ document.getElementById("answer").value="";
+ document.getElementById("feedback").textContent="";
+ document.getElementById("answer").focus();
+}
+function checkAnswer(){
+ const value=document.getElementById("answer").value
+ .toLowerCase().trim().replace(/[.,!?]/g,"").replace(/\s+/g," ");
+ const q=questions[current];
+ const correct=q.answers.some(a=>a===value);
+ const feedback=document.getElementById("feedback");
+ if(correct){
+  feedback.textContent="YAYYY! THAT'S RIGHT! 💗";
+  current++;
+  setTimeout(()=>{
+   if(current<questions.length) showQuestion();
+   else{
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("success").classList.remove("hidden");
+    document.getElementById("bar").style.width="100%";
+    hearts();
+   }
+  },850);
+ }else{
+  feedback.textContent=q.wrong+" "+q.hint;
+ }
+}
+document.getElementById("answer").addEventListener("keydown",e=>{
+ if(e.key==="Enter")checkAnswer();
+});
+function showLetter(){
+ document.getElementById("success").classList.add("hidden");
+ document.getElementById("letter").classList.remove("hidden");
+ hearts();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function hearts(){
+ const symbols=["💗","💕","♡","🎀","💖"];
+ for(let i=0;i<16;i++){
+  const el=document.createElement("div");
+  el.className="float";
+  el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.animationDuration=(3+Math.random()*3)+"s";
+  el.style.fontSize=(16+Math.random()*20)+"px";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),6500);
+ }
+}
+</script>
+</body>
+</html>
